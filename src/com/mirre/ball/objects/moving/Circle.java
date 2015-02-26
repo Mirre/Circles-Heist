@@ -142,7 +142,7 @@ public class Circle extends CircleController {
 		if(collideX.equals(collideY))
 			Gdx.app.log("Test", "Test");
 		//Stairs
-		if(collideX instanceof Stair && collideY instanceof Stair){
+		if(collideX instanceof Stair || collideY instanceof Stair){
 			setOnStairs(true);
 			setOnGround(true);
 			getVelocity().y = 0;
@@ -165,5 +165,6 @@ public class Circle extends CircleController {
 		level.setCircle(this);
 		Gdx.app.log("Create", "Ball");
 	}
+	
 
 }

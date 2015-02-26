@@ -1,5 +1,7 @@
 package com.mirre.ball.objects.moving;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -8,7 +10,8 @@ import com.mirre.ball.enums.CircleState;
 import com.mirre.ball.enums.Direction;
 import com.mirre.ball.enums.ObjectColor;
 import com.mirre.ball.handlers.Level;
-import com.mirre.ball.objects.blocks.Stair;
+import com.mirre.ball.objects.blocks.CollideableTile;
+import com.mirre.ball.objects.interfaces.LevelObject;
 import com.mirre.ball.screens.GameScreen;
 import com.mirre.ball.utils.BiValue;
 
@@ -78,12 +81,7 @@ public abstract class CircleController extends CircleData {
 			texture = textureRight;
 			setStealth(false);
 			if(isOnStairs()){
-				if(Level.getCurrentInstance().getPixelObjects()
-					.get(new BiValue<Integer,Integer>(((int)getBounds().getX()),
-					((int) Math.floor(getBounds().getY()+1)))) instanceof Stair &&
-					Level.getCurrentInstance().getPixelObjects()
-					.get(new BiValue<Integer,Integer>(((int)(getBounds().getX()+getBounds().getWidth())),
-					((int) Math.floor(getBounds().getY()+1)))) instanceof Stair)
+				if(stairCheckAbove(getBounds().getX(), getBounds().getY()))
 					getVelocity().y = 5F;
 				
 			}else if(isOnGround()){
@@ -93,12 +91,7 @@ public abstract class CircleController extends CircleData {
 		
 		//S-Press ; Climb down Stairs
 		}else if((Gdx.input.isKeyPressed(Keys.S) || climbDown) && isOnStairs() 
-				&& Level.getCurrentInstance().getPixelObjects()
-				.get(new BiValue<Integer,Integer>(((int)getBounds().getX()),
-				((int) Math.ceil(getBounds().getY()-1)))) instanceof Stair &&
-				Level.getCurrentInstance().getPixelObjects()
-				.get(new BiValue<Integer,Integer>(((int)(getBounds().getX()+getBounds().getWidth())),
-				((int) Math.ceil(getBounds().getY()-1)))) instanceof Stair){
+				&& stairCheckBelow(getBounds().getX(), getBounds().getY())){
 			getVelocity().y = -5F;
 		}
 		
@@ -128,5 +121,24 @@ public abstract class CircleController extends CircleData {
 			}else 
 				getAcceleration().x = 0; //Activates dampening at Line 44 AdvancedMovingObject.java
 		}
+	}
+	
+	public boolean stairCheckBelow(float x, float y){
+		HashMap<BiValue<Integer,Integer>, LevelObject> map = Level.getCurrentInstance().getPixelObjects();
+		if(!(map.get(new BiValue<Integer,Integer>(((int)x),((int) Math.floor(y - 0.1F)))) instanceof CollideableTile)
+				&& !(map.get(new BiValue<Integer,Integer>(((int)(x+getBounds().getWidth())),
+				((int) Math.floor(y - 0.1F)))) instanceof CollideableTile)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean stairCheckAbove(float x, float y){
+		HashMap<BiValue<Integer,Integer>, LevelObject> map = Level.getCurrentInstance().getPixelObjects();
+		if(!(map.get(new BiValue<Integer,Integer>(((int)x),(int)(Math.ceil(y + 0.1F)))) instanceof CollideableTile)
+				&& !(map.get(new BiValue<Integer,Integer>(((int)(x+getBounds().getWidth())),(int)(Math.ceil(y + 0.1F)))) instanceof CollideableTile)){
+			return true;
+		}
+		return false;
 	}
 }

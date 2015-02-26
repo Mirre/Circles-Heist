@@ -29,7 +29,7 @@ public class LevelRenderer {
 	public LevelRenderer(Level level, Stage stage){
 		this.level = level;
 		this.stage = stage;
-		stage.getCamera().position.set(level.getStartLocation().getBounds().getPosition(new Vector2()), 0);
+		stage.getCamera().position.set(level.getCircle().getBounds().getPosition(new Vector2()), 0);
 	}
 	
 	public void render(float deltaTime) {

@@ -154,8 +154,6 @@ public class Drone extends SimpleMovingObject {
 
 	@Override
 	public void onCollideX(LevelObject collideX, boolean yCollided) {
-		if(collideX.isCollideable())
-			getAcceleration().x = getDirection().getDir();
 		if(isChasing() && !hasCaught() && getDirectionDelay() <= 0){
 			setChasing(false);
 		}
