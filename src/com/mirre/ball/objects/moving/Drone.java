@@ -140,7 +140,7 @@ public class Drone extends SimpleMovingObject {
 
 	@Override
 	public float getMaxVelocity() {
-		return 10F;
+		return 9F;
 	}
 
 	@Override
