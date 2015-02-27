@@ -48,8 +48,8 @@ public class Level {
 		Pixmap pixmap = new Pixmap(Gdx.files.internal("data/level" + i + ".png"));
 		this.height = pixmap.getHeight();
 		this.width = pixmap.getWidth();
-		for (int y = 0; y < pixmap.getHeight(); y++) {
-			for (int x = 0; x < pixmap.getWidth(); x++) {
+		for (int x = 0; x < pixmap.getWidth(); x++) {
+			for (int y = 0; y < pixmap.getHeight(); y++) {
 				int pix = pixmap.getPixel(x, y);
 				PixelObject pixelObject = PixelObject.colorToPixelObject(pix, x, pixmap.getHeight() - y);
 				pixelObject.onLevelCreation(this);
@@ -82,7 +82,7 @@ public class Level {
 			}else if(tile.hasTexture()){
 				addUncachedObject((TextureObject)tile);
 			}
-			if(i >= getHeight() && isCaching){
+			if(i >= getHeight() * (getWidth()/4) && isCaching){
 				addCachedID(getCache().endCache());
 				i = 0;
 				isCaching = false;

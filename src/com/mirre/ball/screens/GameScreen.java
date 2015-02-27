@@ -90,7 +90,6 @@ public class GameScreen extends AbstractScreen {
 	
 	@Override
 	public void show() {
-		Gdx.app.log("Test", "Show");
 		
 		this.stage = new Stage();
 		this.table = new Table();
@@ -143,7 +142,9 @@ public class GameScreen extends AbstractScreen {
 	@Override
 	public void render(float delta) {
 		
-		delta = Math.min(0.1F, Gdx.graphics.getDeltaTime()); //Change the 0.2F if you feel lag.
+		
+		//0.06F = 0.06 Seconds Between Frames = 60FPS
+		delta = Math.min(0.06F, Gdx.graphics.getDeltaTime());
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
 			getGame().setScreen(new StartScreen(getGame()));
 			return;
@@ -191,28 +192,25 @@ public class GameScreen extends AbstractScreen {
 	
 	@Override
 	public void resize(int width, int height) {
-		Gdx.app.log("Test", "Reziese");
 		getStage().getViewport().update(width, height);
 	}
 	
 	@Override
 	public void hide() {
-		Gdx.app.log("Test", "Hide");
 		//disposeTextures();
 		getRenderer().dispose();
 		getStage().dispose();
+		((CircleHeist)getGame()).save();
 	}
 
 	@Override
 	public void pause() {
-		Gdx.app.log("Test", "Pause");
 		setPaused(true);
 		((CircleHeist)getGame()).save();
 	}
 
 	@Override
 	public void resume() {
-		Gdx.app.log("Test", "Resume");
 		setPaused(false);
 		if(Gdx.app.getType() == ApplicationType.Android)
 			setWasPaused(true);

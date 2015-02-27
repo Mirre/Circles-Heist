@@ -60,7 +60,6 @@ abstract class CircleData extends SimpleMovingObject {
 
 	public void addGold() {
 		goldCollected++;
-		Gdx.app.log("Gold Collected", "= " + getGoldCollected());
 	}
 
 	public CircleState getState() {

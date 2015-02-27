@@ -1,6 +1,5 @@
 package com.mirre.ball.objects.moving;
 
-import com.badlogic.gdx.Gdx;
 import com.mirre.ball.CircleHeist;
 import com.mirre.ball.enums.CircleState;
 import com.mirre.ball.enums.Direction;
@@ -36,7 +35,6 @@ public class Circle extends CircleController {
 			setEndDelay(getEndDelay() - 0.05F);
 			if(getEndDelay() <= 0){
 				CircleHeist game = ((CircleHeist) Level.getCurrentInstance().getGame());
-				
 				if(getState() != CircleState.LOSS && game.getCompletedLevels() < Level.getCurrentInstance().getLevelID() + 1)
 					game.setCompletedLevels(Level.getCurrentInstance().getLevelID() + 1);
 				game.setScreen(new LevelEndScreen(game, getState() == CircleState.WON, Level.getCurrentInstance().getLevelID()));
@@ -124,8 +122,8 @@ public class Circle extends CircleController {
 				
 				float vY = 0.18F + (0.2F * Math.abs(getVelocity().y));
 				
-				//Limit bounce velocity to 3.
-				getVelocity().y = vY >= 3 ? 3 : vY;  
+				//Limit bounce velocity to 3.a
+				getVelocity().y = vY >= 3F ? 3F : vY <= 0.16F ? 0.16F : vY;  
 					
 				
 			}
@@ -139,8 +137,6 @@ public class Circle extends CircleController {
 	@Override
 	public void onCollideXY(LevelObject collideX, LevelObject collideY) {
 		
-		if(collideX.equals(collideY))
-			Gdx.app.log("Test", "Test");
 		//Stairs
 		if(collideX instanceof Stair || collideY instanceof Stair){
 			setOnStairs(true);
@@ -163,7 +159,6 @@ public class Circle extends CircleController {
 	public void onObjectCreation(Level level) {
 		super.onObjectCreation(level);
 		level.setCircle(this);
-		Gdx.app.log("Create", "Ball");
 	}
 	
 

@@ -20,7 +20,6 @@ public class CircleHeist extends Game {
 	@Override
 	public void dispose(){
 		super.dispose();
-		
 		save();
 	}
 	

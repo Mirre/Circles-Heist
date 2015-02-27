@@ -13,6 +13,7 @@ import com.mirre.ball.enums.CircleState;
 import com.mirre.ball.enums.Direction;
 import com.mirre.ball.enums.ObjectColor;
 import com.mirre.ball.handlers.Level;
+import com.mirre.ball.objects.blocks.Stair;
 import com.mirre.ball.objects.core.SimpleMovingObject;
 import com.mirre.ball.objects.interfaces.LevelObject;
 
@@ -40,7 +41,7 @@ public class Drone extends SimpleMovingObject {
 		Circle b = Level.getCurrentInstance().getCircle();
 		
 		Rectangle r = new Rectangle(getBounds()).setSize(0.4F, 0.4F);
-		if(b.getBounds().overlaps(r)){
+		if(b.getBounds().overlaps(r) && b.getState() != CircleState.WON){
 			b.setState(CircleState.LOSS);
 			setCaught(true);
 			
@@ -83,10 +84,10 @@ public class Drone extends SimpleMovingObject {
 		
 		if(getAcceleration().y == 0) 
 			getVelocity().y *= getDampening();
-		if(getVelocity().y > getMaxVelocity())
-			getVelocity().y = getMaxVelocity();
-		if(getVelocity().y < -getMaxVelocity()) 
-			getVelocity().y = -getMaxVelocity();
+		if(getVelocity().y > getMaxVelocity()/2)
+			getVelocity().y = getMaxVelocity()/2;
+		if(getVelocity().y < -getMaxVelocity()/2) 
+			getVelocity().y = -getMaxVelocity()/2;
 		
 		
 		getVelocity().scl(deltaTime);
@@ -139,7 +140,7 @@ public class Drone extends SimpleMovingObject {
 
 	@Override
 	public float getMaxVelocity() {
-		return 8.5F;
+		return 10F;
 	}
 
 	@Override
@@ -155,6 +156,9 @@ public class Drone extends SimpleMovingObject {
 	@Override
 	public void onCollideX(LevelObject collideX, boolean yCollided) {
 		if(isChasing() && !hasCaught() && getDirectionDelay() <= 0){
+			setChasing(false);
+		}
+		if(collideX instanceof Stair){
 			setChasing(false);
 		}
 	}
