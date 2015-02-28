@@ -33,7 +33,6 @@ public class LevelRenderer {
 	}
 	
 	public void render(float deltaTime) {
-		
 		if(getLevel().getCache() == null)
 			return;
 		getStage().getCamera().position.lerp(getLerpTarget().set(getLevel().getCircle().getPosition().x, getLevel().getCircle().getPosition().y, 0), 3F * deltaTime);

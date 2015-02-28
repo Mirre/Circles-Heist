@@ -15,12 +15,12 @@ abstract class CircleData extends SimpleMovingObject {
 
 	private CircleState state;
 	private float stateTime = 0;
-	private float bounceDelay = 0;
 	private float endDelay = 3;
 	private int goldCollected = 0;
 	private float stealthMeter = 10;
 	private boolean stealth = false;
 	private boolean onStairs = false;
+	private boolean bounced = false;
 	
 	TextureRegion textureLeft = null;
 	TextureRegion textureRight = null;
@@ -78,14 +78,6 @@ abstract class CircleData extends SimpleMovingObject {
 		this.stateTime = stateTime;
 	}
 
-	public float getBounceDelay() {
-		return bounceDelay;
-	}
-
-	public void setBounceDelay(float bounceDelay) {
-		this.bounceDelay = bounceDelay;
-	}
-
 	public float getEndDelay() {
 		return endDelay;
 	}
@@ -140,5 +132,13 @@ abstract class CircleData extends SimpleMovingObject {
 		CircleHeist game = ((CircleHeist)Gdx.app.getApplicationListener());
 		GameScreen screen = (GameScreen) game.getScreen();
 		screen.getProgressBar().setProgress(stealthMeter);
+	}
+
+	public boolean hasBounced() {
+		return bounced;
+	}
+
+	public void setBounced(boolean bounced) {
+		this.bounced = bounced;
 	}
 }

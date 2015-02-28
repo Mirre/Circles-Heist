@@ -142,9 +142,10 @@ public class GameScreen extends AbstractScreen {
 	@Override
 	public void render(float delta) {
 		
-		
+
 		//0.06F = 0.06 Seconds Between Frames = 60FPS
-		delta = Math.min(0.06F, Gdx.graphics.getDeltaTime());
+		delta = 0.017F;
+		Gdx.app.log("Delta3", "" + delta);
 		if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
 			getGame().setScreen(new StartScreen(getGame()));
 			return;

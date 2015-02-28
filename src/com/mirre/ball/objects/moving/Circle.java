@@ -52,9 +52,6 @@ public class Circle extends CircleController {
 			setStealthMeter(getStealthMeter() - 0.05F);
 		}
 		
-		if(getBounceDelay() != 0F){
-			setBounceDelay(getBounceDelay() <= 0 ? 0 : getBounceDelay()-0.04F);
-		}	
 		
 		//Gold needed to Win = TotalGold - floored rot of TotalGold
 		// 2 = 3 - 1
@@ -83,11 +80,11 @@ public class Circle extends CircleController {
 		
 		//Bounceable
 		else if(collideX instanceof Bounceable){
-			if(getBounceDelay() <= 0F){
-				setBounceDelay(0.5F);
+			if(!hasBounced()){
+				setBounced(true);
 				
 				getVelocity().x = getBounds().getX() > collideX.getBounds().x ? 1 : -1;
-				getVelocity().y = 0.07F + getVelocity().y;
+				getVelocity().y += 0.07F;
 			}
 			getAcceleration().x = getDirection().getReverse().getDir();
 		}
@@ -116,14 +113,12 @@ public class Circle extends CircleController {
 		else if(collideY instanceof Bounceable){
 			if(getBounds().getY() <= collideY.getBounds().getY()){
 				getVelocity().y = 0;
-			}else if(getBounceDelay() == 0F){
-				setBounceDelay(0.5F);
+			}else if(!hasBounced()){
+				setBounced(true);
+				setOnGround(false);
 				
-				
-				float vY = 0.18F + (0.2F * Math.abs(getVelocity().y));
-				
-				//Limit bounce velocity to 3.a
-				getVelocity().y = vY >= 3F ? 3F : vY <= 0.16F ? 0.16F : vY;  
+				float vY = 0.21F; 
+				getVelocity().y = vY;  
 					
 				
 			}
@@ -152,6 +147,8 @@ public class Circle extends CircleController {
 		//Stairs
 		if(isOnStairs()){
 			setOnStairs(false);
+		}if(hasBounced()){
+			setBounced(false);
 		}
 	}
 	

@@ -54,7 +54,6 @@ public abstract class SimpleMovingObject extends MovingObject implements Moveabl
 		if(getVelocity().x < -getMaxVelocity()) 
 			getVelocity().x = -getMaxVelocity();
 		
-		
 		getVelocity().scl(deltaTime);
 		attemptMove();
 		getVelocity().scl(1.0F / deltaTime);
